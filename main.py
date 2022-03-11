@@ -80,6 +80,7 @@ while True:
                     g = f
 
             except Exception as erro:
+                os.system('cls' if os.name == 'nt' else 'clear')
                 funcoes.send_to_txt(erro)
                 print(Fore.RED + "Erro ao logar!")
                 time.sleep(1)
@@ -272,6 +273,8 @@ while True:
             
             nome = str(input("Nome: ").lower())
             try:
+                banco = sqlite3.connect('gerenciador-senhas.db')
+                cursor = banco.cursor()
                 cursor.execute("SELECT nome FROM user WHERE nome = '" + nome + "' ")
                 banco.commit()
 
