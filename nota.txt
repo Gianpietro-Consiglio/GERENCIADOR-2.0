@@ -1,17 +1,8 @@
 Versão 2.0 do gerenciador de senhas em python com Sqlite.
 
-Várias melhorias para trazer uma melhor utilização do software.
-
-<<<<<<< HEAD
-Melhoria na criação, exclusão e alteração de contas e credenciais.
-Adição de verificação de e-mail
-Criação automática de arquivo txt onde é possível observar erros que foram gerados durante execução do programa
-Melhoria na busca de informações dentro do banco de dados.
-Correção de bugs
-=======
 Melhora na exclusão de credenciais, contas
 Melhora na criação de contas, com adição de verificação de e-mail.
 Criação automática de log onde é possível ver o comportamento da rodagem do programa
 Melhora na pesquisa de informações de dentro do banco de dados
 Conserto de bugs
->>>>>>> f3a39b720eb02ca7c7614d14a0a9908af04ad06f
+FEITA ATUALIZAÇÃO PARA RODAR TANTO EM LINUX OU WINDOWS.
