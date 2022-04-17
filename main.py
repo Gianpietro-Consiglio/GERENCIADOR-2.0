@@ -13,7 +13,7 @@ from email.message import EmailMessage
 init(convert=True, autoreset=True)
 
 #os.mkdir("C:\\Users\Public\\GERENCIADOR-SENHAS\\")
-  
+#teste  
 
 try:
     os.chdir("C:\\Users\Public\\GERENCIADOR-SENHAS\\")
