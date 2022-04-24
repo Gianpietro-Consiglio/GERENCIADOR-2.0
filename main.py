@@ -14,6 +14,12 @@ from email.message import EmailMessage
 #FIM
 init(convert=True, autoreset=True)
 
+<<<<<<< HEAD
+=======
+#os.mkdir("C:\\Users\Public\\GERENCIADOR-SENHAS\\")
+#teste  
+
+>>>>>>> 2ddb89ec1c7de1b9c821930a31c707b822883b09
 try:
     os.chdir("C:\\Users\Public\\GERENCIADOR-SENHAS\\")
 except:
