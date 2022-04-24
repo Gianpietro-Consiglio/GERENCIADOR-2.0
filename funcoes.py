@@ -7,12 +7,12 @@ from colorama import Fore
 
 
 def send_to_txt(msg, ponto=0):
-    #try:
-        #os.mkdir(r"C:\\Users\\Public\\GERENCIADOR-SENHAS\\")
-    #except:
-       # pass    
+    try:
+        os.mkdir(r"C:\\Users\\Public\\GERENCIADOR-SENHAS\\")
+    except:
+        pass    
 
-    #os.chdir(r"C:\\Users\\Public\\GERENCIADOR-SENHAS\\")
+    os.chdir(r"C:\\Users\\Public\\GERENCIADOR-SENHAS\\")
     log = open('log.txt', 'a')
     if ponto == 1:
         hora = time.strftime('%d-%m-%Y %H:%M:%S', time.localtime())

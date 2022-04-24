@@ -6,3 +6,7 @@ Criação automática de log onde é possível ver o comportamento da rodagem do
 Melhora na pesquisa de informações de dentro do banco de dados
 Conserto de bugs
 FEITA ATUALIZAÇÃO PARA RODAR TANTO EM LINUX OU WINDOWS.
+
+3.0
+ALTERADA QUESTÕES DE SEGURANÇA
+ADICIONADA A FUNCIONALIDADE DE COPIAR AUTOMATICAMENTE LOGINS, SENHAS E ABRIR AUTOMATICAMENTE SITES.

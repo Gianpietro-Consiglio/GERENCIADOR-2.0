@@ -6,14 +6,13 @@ import sys
 import os
 import emoji
 import smtplib
+import pyperclip
 import funcoes
+import webbrowser as wb
 from colorama import init, Fore 
 from email.message import EmailMessage
 #FIM
 init(convert=True, autoreset=True)
-
-#os.mkdir("C:\\Users\Public\\GERENCIADOR-SENHAS\\")
-  
 
 try:
     os.chdir("C:\\Users\Public\\GERENCIADOR-SENHAS\\")
@@ -57,7 +56,7 @@ while True:
             saida = str(input("Aperte qualquer tecla para sair: "))
 
         elif option == 1:
-            #os.chdir("C:\\Users\Public\\GERENCIADOR-SENHAS\\")
+            os.chdir("C:\\Users\Public\\GERENCIADOR-SENHAS\\")
             try:
                 banco = sqlite3.connect("gerenciador-senhas.db")
                 cursor = banco.cursor()
@@ -113,7 +112,7 @@ while True:
                     cont +=1
                     print(f"[{cont}]{x}")
                 try:
-                    option = int(input("Opção -> "))
+                    option = int(input("Opção: "))
 
                 except:
                     continue
@@ -146,10 +145,11 @@ while True:
                             x = cursor.execute(f"SELECT site, usuario, senha FROM contas WHERE identificador = '{login}'")
                             banco.commit()
                             x = cursor.fetchall()
-
+                                                                           
                         except Exception as erro:
                             funcoes.send_to_txt(erro)   
                             print(Fore.RED + "Falha na pesquina de informações")  
+                            time.sleep(2)
                             continue
 
                         else:
@@ -157,16 +157,64 @@ while True:
                                 print(Fore.RED + "Sem credenciais cadastradas!")
                                 time.sleep(1)
                                 continue
-                            for a in x:
-                                print(a)
-                            print('')    
-                            exit = str(input("Aperte quaquer tecla para sair: "))
-                            continue
+                            else:
+                                c = 0
+                                for a in x:
+                                    c+=1
+                                    print( Fore.LIGHTMAGENTA_EX + f'[{c}]{a}')
+                                exit = str(input("Opção: "))
+                                os.system('cls' if os.name == 'nt' else 'clear')
+                                
+                                while True:
+                                    options = 0
+                                    os.system('cls' if os.name == 'nt' else 'clear')
+                                    menu = ['ABRIR SITE','COPIAR LOGIN', 'COPIAR SENHA', 'SAIR']
+                                    for x in menu:
+                                        options += 1
+                                        print(f'[{options}]{x}')
+
+                                    options = int(input('Opção: '))
+                                    if options == 1:
+                                        x = cursor.execute(f"SELECT site FROM contas WHERE identificador = '{login}' AND rlx = {exit}")
+                                        banco.commit()
+                                        x = cursor.fetchall() 
+                                        site = str(x)
+                                        site = site.replace("(","").replace(")","").replace("[","").replace("]","").replace("'","").replace(",","")
+                                        wb.open(site)
+                                    
+                                    elif options == 2:
+                                        x = cursor.execute(f"SELECT usuario FROM contas WHERE identificador = '{login}' AND rlx = {exit} ")
+                                        banco.commit()
+                                        x = cursor.fetchall()
+                                        usuario = str(x)
+                                        usuario = usuario.replace("(","").replace(")","").replace("[","").replace("]","").replace("'","").replace(",","")   
+                                        pyperclip.copy(usuario)  
+                                        print(Fore.GREEN + 'Usuário copiado para área de transferência!')
+                                        time.sleep(2)
+
+                                    elif options == 3:
+                                        x = cursor.execute(f"SELECT senha FROM contas WHERE identificador = '{login}' AND rlx = {exit} ")
+                                        banco.commit()
+                                        x = cursor.fetchall()
+                                        senha = str(x)
+                                        senha = senha.replace("(","").replace(")","").replace("[","").replace("]","").replace("'","").replace(",","")   
+                                        pyperclip.copy(senha)  
+                                        print(Fore.GREEN + 'Senha copiada para área de transferência!')
+                                        time.sleep(2)
+
+                                    else:
+                                        break    
+
+                                
+                                    
+
+
 
                     elif option == 3:
                         cont = 0
                         try:
                             x = cursor.execute(f"SELECT rlx, site, usuario, senha FROM contas WHERE identificador = '{login}'")
+
                             banco.commit()
                             x = cursor.fetchall()
 
@@ -302,12 +350,13 @@ while True:
                     c+=1
                     num = random.randint(0,9)
                     chave.append(num)
-
-                meu_email = 'gianpietro.consiglio1807@gmail.com'   
-                minha_senha = 'IP-37UYQ067'  
+                
+                """ E-MAIL CRIADO PARA FINS DE TESTES """
+                meu_email = 'testegerenciadorpython@gmail.com'   
+                minha_senha = 'batatapreta29'  
                 msg = EmailMessage()
                 msg['Subject'] = f'Código = {str(chave)[1:-1]}'
-                msg['From'] = meu_email  #adicionado para linux
+                """msg['From'] = meu_email  #adicionado para linux"""
                 msg['To'] = email
                 msg.add_alternative(
                         """
@@ -345,7 +394,8 @@ while True:
                         continue
 
                     else:
-                        print(Fore.GREEN + f"MENSAGEM ENVIADA COM SUCESSO!{emoji.emojize(':thumbsup:', use_aliases=True)}")  
+                        #print(Fore.GREEN + f"MENSAGEM ENVIADA COM SUCESSO!{emoji.emojize(':thumbsup:', use_aliases=True)}")  
+                        print(Fore.GREEN + 'MENSAGEM ENVIADA!')
                         time.sleep(1)
                         os.system('cls' if os.name == 'nt' else 'clear')
                         resposta_email = str(input("Verificar código: "))
@@ -389,4 +439,3 @@ while True:
             print(Fore.RED + 'Saindo...')
             time.sleep(1)
             break    
-        
