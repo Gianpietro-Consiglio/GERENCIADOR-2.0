@@ -14,12 +14,10 @@ from email.message import EmailMessage
 #FIM
 init(convert=True, autoreset=True)
 
-<<<<<<< HEAD
-=======
-#os.mkdir("C:\\Users\Public\\GERENCIADOR-SENHAS\\")
-#teste  
-
->>>>>>> 2ddb89ec1c7de1b9c821930a31c707b822883b09
+try:
+    os.mkdir(r"C:\\Users\\Public\\GERENCIADOR-SENHAS\\")
+except:
+    pass 
 try:
     os.chdir("C:\\Users\Public\\GERENCIADOR-SENHAS\\")
 except:
@@ -47,22 +45,15 @@ while True:
         print(f"[{cont}]{menu}")
 
     try:
-        option = int(input("Opção -> "))
+        escolha = int(input("Opção -> "))
 
     except Exception as erro:
         funcoes.send_to_txt(erro)
         continue
 
     else:
-        
-        if option == 3:
-            print(Fore.GREEN + "Banco de dados e log estão localizado no seguinte diretório: C:\\Users\Public\\GERENCIADOR-SENHAS\\ ")
-            print(Fore.YELLOW + "Programa desenvolvido por Gianpietro Consiglio")
-            print(Fore.BLUE + "Programa feito com a linguagem Python e Sqlite")
-            saida = str(input("Aperte qualquer tecla para sair: "))
-
-        elif option == 1:
-            os.chdir("C:\\Users\Public\\GERENCIADOR-SENHAS\\")
+        # TRECHO REALIZAÇÃO DE LOGIN
+        if escolha == 1:
             try:
                 banco = sqlite3.connect("gerenciador-senhas.db")
                 cursor = banco.cursor()
@@ -85,244 +76,26 @@ while True:
                     g = f
 
             except Exception as erro:
-                os.system('cls' if os.name == 'nt' else 'clear')
                 funcoes.send_to_txt(erro)
                 print(Fore.RED + "Erro ao logar!")
                 time.sleep(1)
                 banco.close()
                 continue
 
-            os.system('cls' if os.name == 'nt' else 'clear')
-
+            
             if login == d and senha == g:
+                os.system('cls' if os.name == 'nt' else 'clear')
                 print(Fore.GREEN + "Login realizado com sucesso!")
                 time.sleep(1)
-                os.system('cls' if os.name == 'nt' else 'clear')
-                
+                                
             else:
                 print(Fore.RED + "Credenciais inválidas!")
                 time.sleep(1)
                 banco.close()
                 continue
-            
-            os.system('cls' if os.name == 'nt' else 'clear')
-            print(Fore.BLUE + f"Bem-Vindo, {login}".upper())
-            time.sleep(1)
-            
-            while True:
-                os.system('cls' if os.name == 'nt' else 'clear')
-                print(Fore.BLUE + f"Conta -> {login}")
-                menu = ["Cadastrar Credencial", "Ver Credenciais","Alterar Credenciais", "Excluir Credencial","Excluir conta","Sair"]
-                cont = 0
-                for x in menu:
-                    cont +=1
-                    print(f"[{cont}]{x}")
-                try:
-                    option = int(input("Opção: "))
-
-                except:
-                    continue
-
-                else:
-                    if option == 1:
-                        os.system('cls' if os.name == 'nt' else 'clear')
-                        site = str(input("Site: "))
-                        nick = str(input("Usuário: "))
-                        funcoes.decisao_de_senha()
-
-                        try:
-                            cursor.execute("INSERT INTO contas(identificador, site, usuario, senha) VALUES('"+ login +"', '"+ site +"', '" + nick + "', '" + funcoes.confidencial + "')")
-                            banco.commit()
-                            
-                        except Exception as erro:
-                            funcoes.send_to_txt(erro)
-                            print(Fore.RED + "Erro ao enviar dados")  
-                            banco.close()
-                            time.sleep(1)
-                            continue  
-                        else:
-                            print(Fore.GREEN + "Dados enviados com sucesso")
-                            time.sleep(1)
-                            continue
-
-                    elif option == 2:
-                        a = ''
-                        try:
-                            x = cursor.execute(f"SELECT site, usuario, senha FROM contas WHERE identificador = '{login}'")
-                            banco.commit()
-                            x = cursor.fetchall()
-                                                                           
-                        except Exception as erro:
-                            funcoes.send_to_txt(erro)   
-                            print(Fore.RED + "Falha na pesquina de informações")  
-                            time.sleep(2)
-                            continue
-
-                        else:
-                            if len(x) == 0:
-                                print(Fore.RED + "Sem credenciais cadastradas!")
-                                time.sleep(1)
-                                continue
-                            else:
-                                c = 0
-                                for a in x:
-                                    c+=1
-                                    print( Fore.LIGHTMAGENTA_EX + f'[{c}]{a}')
-                                exit = str(input("Opção: "))
-                                os.system('cls' if os.name == 'nt' else 'clear')
-                                
-                                while True:
-                                    options = 0
-                                    os.system('cls' if os.name == 'nt' else 'clear')
-                                    menu = ['ABRIR SITE','COPIAR LOGIN', 'COPIAR SENHA', 'SAIR']
-                                    for x in menu:
-                                        options += 1
-                                        print(f'[{options}]{x}')
-
-                                    options = int(input('Opção: '))
-                                    if options == 1:
-                                        x = cursor.execute(f"SELECT site FROM contas WHERE identificador = '{login}' AND rlx = {exit}")
-                                        banco.commit()
-                                        x = cursor.fetchall() 
-                                        site = str(x)
-                                        site = site.replace("(","").replace(")","").replace("[","").replace("]","").replace("'","").replace(",","")
-                                        wb.open(site)
-                                    
-                                    elif options == 2:
-                                        x = cursor.execute(f"SELECT usuario FROM contas WHERE identificador = '{login}' AND rlx = {exit} ")
-                                        banco.commit()
-                                        x = cursor.fetchall()
-                                        usuario = str(x)
-                                        usuario = usuario.replace("(","").replace(")","").replace("[","").replace("]","").replace("'","").replace(",","")   
-                                        pyperclip.copy(usuario)  
-                                        print(Fore.GREEN + 'Usuário copiado para área de transferência!')
-                                        time.sleep(2)
-
-                                    elif options == 3:
-                                        x = cursor.execute(f"SELECT senha FROM contas WHERE identificador = '{login}' AND rlx = {exit} ")
-                                        banco.commit()
-                                        x = cursor.fetchall()
-                                        senha = str(x)
-                                        senha = senha.replace("(","").replace(")","").replace("[","").replace("]","").replace("'","").replace(",","")   
-                                        pyperclip.copy(senha)  
-                                        print(Fore.GREEN + 'Senha copiada para área de transferência!')
-                                        time.sleep(2)
-
-                                    else:
-                                        break    
-
-                                
-                                    
-
-
-
-                    elif option == 3:
-                        cont = 0
-                        try:
-                            x = cursor.execute(f"SELECT rlx, site, usuario, senha FROM contas WHERE identificador = '{login}'")
-
-                            banco.commit()
-                            x = cursor.fetchall()
-
-                        except Exception as erro:
-                            funcoes.send_to_txt(erro)   
-                            print(Fore.RED + "Falha na pesquina de informações")  
-                            continue
-
-                        else:
-                            if len(x) == 0:
-                                print(Fore.RED + "Sem credenciais cadastradas!")
-                                time.sleep(1)
-                                continue
-                            alvo1 = []
-                            for a in x:
-                                cont += 1
-                                print(f"[{cont}]{a}")
-                            option = int(input("Opção -> ")) 
-                            option = option - 1
-                            alvo = list(x[option])
-                            for b in alvo:
-                                alvo1.append(b) 
-                            user = str(input("Novo usuário: "))    
-                            funcoes.decisao_de_senha()
-              
-                            try:
-                                cursor.execute(f"UPDATE contas SET usuario = '{user}' WHERE rlx = {alvo1[0]}")  
-                                cursor.execute(f"UPDATE contas SET senha = '{funcoes.confidencial}' WHERE rlx = {alvo[0]}")
-                                banco.commit()
-
-                            except Exception as erro:
-                                funcoes.send_to_txt(erro)   
-                                print(Fore.RED + "Erro ao alterar nova credencial!")  
-                                time.sleep(1)
-
-                            else:
-                                print(Fore.GREEN + "Credencial alterada!") 
-                                time.sleep(1)    
-                            
-
-                    elif option == 4:
-                        cont = 0
-                        try:
-                            x = cursor.execute(f"SELECT rlx, site, usuario, senha FROM contas WHERE identificador = '{login}'")
-                            banco.commit()
-                            x = cursor.fetchall()
-
-                        except Exception as erro:
-                            funcoes.send_to_txt(erro)   
-                            print(Fore.RED + "Falha na pesquina de informações")  
-                            continue
-
-                        else:
-                            if len(x) == 0:
-                                print(Fore.RED + "Sem credenciais cadastradas!")
-                                time.sleep(1)
-                                continue
-                            alvo1 = []
-                            for a in x:
-                                cont += 1
-                                print(f"[{cont}]{a}")
-                            option = int(input("Opção -> ")) 
-                            option = option - 1
-                            alvo = list(x[option])
-                            for b in alvo:
-                                alvo1.append(b)  
-                            try:
-                                cursor.execute(f"DELETE FROM contas WHERE rlx = {alvo1[0]}")   
-
-                            except Exception as erro:
-                                funcoes.send_to_txt(erro)  
-                                print(Fore.RED + "Erro ao excluir credencial!") 
-                                time.sleep(1)
-
-                            else:
-                                print(Fore.GREEN + "Credencial excluída!")
-                                time.sleep(1)
-                        
-
-                    elif option == 5:
-                        try:
-                            cursor.execute(f"DELETE FROM contas WHERE identificador = '{login}'")
-                            cursor.execute(f"DELETE FROM user WHERE nome = '{login}'")
-                            banco.commit()
-
-                        except Exception as erro:
-                            funcoes.send_to_txt(erro)
-                            print(Fore.RED + "Erro ao excluir sua conta!") 
-                            time.sleep(1)   
-                        else:
-                            print(Fore.GREEN + "Conta excluída!")
-                            time.sleep(1)
-                            sys.exit()
-
-                    else:
-                        break     
-
-
-
-                         
-
-        elif option == 2:
+                             
+        # TRECHO REALIZAÇÃO DE CADASTRO
+        elif escolha == 2:
             os.system('cls' if os.name == 'nt' else 'clear')     
             
             nome = str(input("Nome: ").lower())
@@ -438,10 +211,287 @@ while True:
             else:
                 os.system('cls' if os.name == 'nt' else 'clear')
                 print(Fore.GREEN + "Sucesso ao enviar seus dados!")
-                time.sleep(1)          
+                time.sleep(1)  
+
+        # TRECHO REALIZAÇÃO DE AJUDA
+        elif escolha == 3:
+            print(Fore.GREEN + "Banco de dados e log estão localizado no seguinte diretório: C:\\Users\Public\\GERENCIADOR-SENHAS\\ ")
+            print(Fore.YELLOW + "Programa desenvolvido por Gianpietro Consiglio")
+            print(Fore.BLUE + "Programa feito com a linguagem Python e Sqlite")
+            saida = str(input("Aperte qualquer tecla para sair: "))
                         
+        # TRECHO REALIZAÇÃO DE SAÍDA                
         else:
             os.system('cls' if os.name == 'nt' else 'clear')
             print(Fore.RED + 'Saindo...')
             time.sleep(1)
-            break    
+            break  
+
+
+
+
+        # TRECHO REALIZAÇÃO DE FUNÇÕES QUANDO JÁ LOGADO
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print(Fore.BLUE + f"Bem-Vindo, {login}".upper())
+        time.sleep(1)
+        while True:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print(Fore.BLUE + f"Conta -> {login}")
+            menu = ["Cadastrar Credencial", "Ver Credenciais","Alterar Credenciais", "Excluir Credencial","Excluir conta","Alterar detalhes da conta","Sair"]
+            cont = 0
+            for x in menu:
+                cont +=1
+                print(f"[{cont}]{x}")
+            try:
+                escolha = int(input("Opção: "))
+
+            except:
+                continue
+
+            else:
+                # TRECHO LOGADO - CADASTRAR CREDENCIAL
+                if escolha == 1:
+                    os.system('cls' if os.name == 'nt' else 'clear')
+                    site = str(input("Site: "))
+                    nick = str(input("Usuário: "))
+                    funcoes.decisao_de_senha()
+                    try:
+                        cursor.execute("INSERT INTO contas(identificador, site, usuario, senha) VALUES('"+ login +"', '"+ site +"', '" + nick + "', '" + funcoes.confidencial + "')")
+                        banco.commit()
+                            
+                    except Exception as erro:
+                        funcoes.send_to_txt(erro)
+                        print(Fore.RED + "Erro ao enviar dados")  
+                        banco.close()
+                        time.sleep(1)
+                        continue  
+                    else:
+                        print(Fore.GREEN + "Dados enviados com sucesso")
+                        time.sleep(1)
+                        continue
+                # TRECHO LOGADO - VER CREDENCIAIS CADASTRADAS 
+                elif escolha == 2:
+                    a = ''
+                    try:
+                        x = cursor.execute(f"SELECT site, usuario, senha FROM contas WHERE identificador = '{login}'")
+                        banco.commit()
+                        x = cursor.fetchall()
+                                                                           
+                    except Exception as erro:
+                        funcoes.send_to_txt(erro)   
+                        print(Fore.RED + "Falha na pesquina de informações")  
+                        time.sleep(2)
+                        continue
+
+                    else:
+                        if len(x) == 0:
+                            print(Fore.RED + "Sem credenciais cadastradas!")
+                            time.sleep(1)
+                            continue
+                        else:
+                            c = 0
+                            for a in x:
+                                c+=1
+                                print( Fore.LIGHTMAGENTA_EX + f'[{c}]{a}')
+                            escolha = str(input("Opção: "))
+                            os.system('cls' if os.name == 'nt' else 'clear')
+
+                            # TRECHO LADO - SUB MENU - ACCS    
+                            while True:
+                                options = 0
+                                os.system('cls' if os.name == 'nt' else 'clear')
+                                menu = ['ABRIR SITE','COPIAR LOGIN', 'COPIAR SENHA', 'SAIR']
+                                for x in menu:
+                                    options += 1
+                                    print(f'[{options}]{x}')
+
+                                options = int(input('Opção: '))
+                                if options == 1:
+                                    x = cursor.execute(f"SELECT site FROM contas WHERE identificador = '{login}' AND rlx = {escolha}")
+                                    banco.commit()
+                                    x = cursor.fetchall() 
+                                    site = str(x)
+                                    site = site.replace("(","").replace(")","").replace("[","").replace("]","").replace("'","").replace(",","")
+                                    wb.open(site)
+                                    
+                                elif options == 2:
+                                    x = cursor.execute(f"SELECT usuario FROM contas WHERE identificador = '{login}' AND rlx = {escolha} ")
+                                    banco.commit()
+                                    x = cursor.fetchall()
+                                    usuario = str(x)
+                                    usuario = usuario.replace("(","").replace(")","").replace("[","").replace("]","").replace("'","").replace(",","")   
+                                    pyperclip.copy(usuario)  
+                                    print(Fore.GREEN + 'Usuário copiado para área de transferência!')
+                                    time.sleep(1)
+
+                                elif options == 3:
+                                    x = cursor.execute(f"SELECT senha FROM contas WHERE identificador = '{login}' AND rlx = {escolha} ")
+                                    banco.commit()
+                                    x = cursor.fetchall()
+                                    senha = str(x)
+                                    senha = senha.replace("(","").replace(")","").replace("[","").replace("]","").replace("'","").replace(",","")   
+                                    pyperclip.copy(senha)  
+                                    print(Fore.GREEN + 'Senha copiada para área de transferência!')
+                                    time.sleep(1)
+
+                                else:
+                                    break    
+
+                                
+                                    
+
+
+                # TRCHO LOGADO - ALTERAR CREDENCIAIS
+                elif escolha == 3:
+                    cont = 0
+                    try:
+                        x = cursor.execute(f"SELECT rlx, site, usuario, senha FROM contas WHERE identificador = '{login}'")
+                        banco.commit()
+                        x = cursor.fetchall()
+
+                    except Exception as erro:
+                        funcoes.send_to_txt(erro)   
+                        print(Fore.RED + "Falha na pesquina de informações")  
+                        continue
+
+                    else:
+                        if len(x) == 0:
+                            print(Fore.RED + "Sem credenciais cadastradas!")
+                            time.sleep(1)
+                            continue
+                        alvo1 = []
+                        for a in x:
+                            cont += 1
+                            print(f"[{cont}]{a}")
+                        escolha = int(input("Opção -> ")) 
+                        escolha = escolha - 1
+                        alvo = list(x[escolha])
+                        for b in alvo:
+                            alvo1.append(b) 
+                            user = str(input("Novo usuário: "))    
+                            funcoes.decisao_de_senha()
+              
+                        try:
+                            cursor.execute(f"UPDATE contas SET usuario = '{user}' WHERE rlx = {alvo1[0]}")  
+                            cursor.execute(f"UPDATE contas SET senha = '{funcoes.confidencial}' WHERE rlx = {alvo[0]}")
+                            banco.commit()
+
+                        except Exception as erro:
+                            funcoes.send_to_txt(erro)   
+                            print(Fore.RED + "Erro ao alterar nova credencial!")  
+                            time.sleep(1)
+
+                        else:
+                            print(Fore.GREEN + "Credencial alterada!") 
+                            time.sleep(1)    
+                            
+                # TRECHO LOGADO - DELETAR CREDENCIAIS
+                elif escolha == 4:
+                    cont = 0
+                    try:
+                        x = cursor.execute(f"SELECT rlx, site, usuario, senha FROM contas WHERE identificador = '{login}'")
+                        banco.commit()
+                        x = cursor.fetchall()
+
+                    except Exception as erro:
+                        funcoes.send_to_txt(erro)   
+                        print(Fore.RED + "Falha na pesquina de informações")  
+                        continue
+
+                    else:
+                        if len(x) == 0:
+                            print(Fore.RED + "Sem credenciais cadastradas!")
+                            time.sleep(1)
+                            continue
+                        alvo1 = []
+                        for a in x:
+                            cont += 1
+                            print(f"[{cont}]{a}")
+                        escolha = int(input("Opção: ")) 
+                        escolha = escolha - 1
+                        alvo = list(x[escolha])
+                        for b in alvo:
+                            alvo1.append(b)  
+                        try:
+                            cursor.execute(f"DELETE FROM contas WHERE rlx = {alvo1[0]}")   
+
+                        except Exception as erro:
+                            funcoes.send_to_txt(erro) 
+                            print(Fore.RED + "Erro ao excluir credencial!") 
+                            time.sleep(1)
+
+                        else:
+                            print(Fore.GREEN + "Credencial excluída!")
+                            time.sleep(1)
+                        
+                # TRECHO LOGADO - EXCLUIR CONTA 
+                elif escolha == 5:
+                    try:
+                        cursor.execute(f"DELETE FROM contas WHERE identificador = '{login}'")
+                        cursor.execute(f"DELETE FROM user WHERE nome = '{login}'")
+                        banco.commit()
+
+                    except Exception as erro:
+                        funcoes.send_to_txt(erro)
+                        print(Fore.RED + "Erro ao excluir sua conta!") 
+                        time.sleep(1)   
+                    else:
+                        print(Fore.GREEN + "Conta excluída!")
+                        time.sleep(1)
+                        sys.exit()
+                    
+                # TRECHO LOGADO - ALTERAR DADOS DE CONTA PESSOAL CADASTRADA
+                elif escolha == 6:
+                    os.system('cls' if os.name == 'nt' else 'clear')     
+                    cont = 0
+                    menu = ['E-MAIL', 'NOME', 'SENHA']
+                    for x in menu:
+                        cont += 1
+                        print(f"[{cont}]{x}")
+                    option = int(input("O que deseja alterar? "))  
+
+                    if option == 1:
+                        email = str(input("Novo e-mail: ")) 
+                        try:
+                            cursor.execute(f"UPDATE user SET email = '{email}' WHERE nome = '"+ login +"'")
+                            banco.commit()
+                        except Exception as erro:
+                            funcoes.send_to_txt(erro)
+                            print(Fore.RED + "Erro ao enviar informações") 
+                            time.sleep(1)
+                        else:
+                            print(Fore.GREEN + "E-mail alterado com sucesso!")  
+                            time.sleep(1)  
+
+                    elif option == 2:
+                        nome = str(input("Novo nome: "))  
+                        try:
+                            cursor.execute(f"UPDATE user SET nome = '{nome}' WHERE nome = '"+ login +"'")
+                            cursor.execute(f"UPDATE contas SET identificador = '{nome}' WHERE identificador = '{login}'")
+                            banco.commit()
+                        except Exception as erro:
+                            funcoes.send_to_txt(erro)
+                            print(Fore.RED + "Erro ao enviar informações") 
+                            time.sleep(1)
+                        else:
+                            print(Fore.GREEN + "Nome alterado com sucesso!")  
+                            time.sleep(1)  
+                            sys.exit() 
+
+                    elif option == 3:
+                        senha = str(input("Nova senha: "))
+                        try:
+                            cursor.execute(f"UPDATE user SET senha = '{senha}' WHERE nome = '"+ login +"'")
+                            banco.commit()
+                        except Exception as erro:
+                            funcoes.send_to_txt(erro)
+                            print(Fore.RED + "Erro ao enviar informações") 
+                            time.sleep(1)
+                        else:
+                            print(Fore.GREEN + "Senha alterada com sucesso!")  
+                            time.sleep(1)   
+                            sys.exit()
+                    
+                    # TRECHO LOGADO - SAIR
+                    else:
+                        break
