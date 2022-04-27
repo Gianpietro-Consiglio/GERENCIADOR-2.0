@@ -4,7 +4,6 @@ import random
 import time
 import sys
 import os
-import emoji
 import smtplib
 import pyperclip
 import funcoes
@@ -173,7 +172,6 @@ while True:
                         continue
 
                     else:
-                        #print(Fore.GREEN + f"MENSAGEM ENVIADA COM SUCESSO!{emoji.emojize(':thumbsup:', use_aliases=True)}")  
                         print(Fore.GREEN + 'MENSAGEM ENVIADA!')
                         time.sleep(1)
                         os.system('cls' if os.name == 'nt' else 'clear')
@@ -221,11 +219,14 @@ while True:
             saida = str(input("Aperte qualquer tecla para sair: "))
                         
         # TRECHO REALIZAÇÃO DE SAÍDA                
-        else:
+        elif escolha == 4:
             os.system('cls' if os.name == 'nt' else 'clear')
             print(Fore.RED + 'Saindo...')
             time.sleep(1)
             break  
+
+        else:
+            continue
 
 
 
@@ -492,6 +493,10 @@ while True:
                             time.sleep(1)   
                             sys.exit()
                     
-                    # TRECHO LOGADO - SAIR
-                    else:
-                        break
+                # TRECHO LOGADO - SAIR
+                elif escolha == 7:
+                    break
+
+                else:
+                    continue
+                

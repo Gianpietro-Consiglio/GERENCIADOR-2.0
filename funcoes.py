@@ -1,34 +1,15 @@
-from doctest import ELLIPSIS_MARKER
 import time
-import datetime
 import os
 import random
 from colorama import Fore 
 
 
-def send_to_txt(msg, ponto=0):
+def send_to_txt(msg):
     os.chdir(r"C:\\Users\\Public\\GERENCIADOR-SENHAS\\")
     log = open('log.txt', 'a')
-    if ponto == 1:
-        hora = time.strftime('%d-%m-%Y %H:%M:%S', time.localtime())
-        log.write('\n')
-        log.write('\n')
-        log.write("*************************************************************************\n")
-        log.write(f'{hora} -> {msg}\n')
-        log.close()
-
-    elif ponto == 2:
-        hora = time.strftime('%d-%m-%Y %H:%M:%S', time.localtime())
-        data = datetime.date.today()
-        log.write(f'{hora} -> {msg}\n')
-        log.close()
-
-    else:
-        hora = time.strftime('%d-%m-%Y %H:%M:%S', time.localtime())
-        data = datetime.date.today()
-        log.write(f'{hora} -> {msg}\n')
-        log.close()
-
+    hora = time.strftime('%d-%m-%Y %H:%M:%S', time.localtime())
+    log.write(f'{hora} -> {msg}\n')
+    log.close()
 
 def gerador_senhas(qtd):
     f = 0
@@ -59,17 +40,29 @@ def gerador_senhas(qtd):
             senha2.append(d)   
 
     random.shuffle(senha2)  
+    os.system('cls' if os.name == 'nt' else 'clear')
     print(Fore.GREEN + 'Senha gerada com sucesso!')
     senha = "".join(str(v) for v in senha2) 
     confidencial = senha
 
-
 def decisao_de_senha():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    menu_funcao = ("SIM", "NÃO")
     global confidencial
     while True:
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print("*" * 20)
+        print("CRIAR SENHA ALEATÓRIA?")
+        print("*" * 20)
+        cont = 0
+        for x in menu_funcao:
+            cont += 1
+            print(f'[{cont}]{x}')
         try:
-            escolha = str(input("Deseja criar uma senha automática? ").lower())
-            if escolha in 'simsyesy':
+            print('')
+            escolha = int(input("Opção: "))
+            if escolha == 1:
+                os.system('cls' if os.name == 'nt' else 'clear')
                 qtd = int(input("Quantidade de caracteres: "))
                 if qtd > 100:
                     print(Fore.YELLOW + 'Sua senha deve ter até 100 caractares!')
@@ -79,10 +72,14 @@ def decisao_de_senha():
                     gerador_senhas(qtd)
                     time.sleep(1)
                     break
-            else:
+            elif escolha == 2:
+                os.system('cls' if os.name == 'nt' else 'clear')
                 confidencial = str(input("Senha: "))
                 break
+            else:
+                os.system('cls' if os.name == 'nt' else 'clear')
+                continue
+
         except Exception as erro:
-            print(erro)
-            time.sleep(1)
+            send_to_txt(erro)
             continue   
