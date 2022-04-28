@@ -233,7 +233,11 @@ while True:
 
         # TRECHO REALIZAÇÃO DE FUNÇÕES QUANDO JÁ LOGADO
         os.system('cls' if os.name == 'nt' else 'clear')
-        print(Fore.BLUE + f"Bem-Vindo, {login}".upper())
+        try:
+            print(Fore.BLUE + f"Bem-Vindo, {login}".upper())
+        except Exception as erro:
+            funcoes.send_to_txt(erro)    
+            continue
         time.sleep(1)
         while True:
             os.system('cls' if os.name == 'nt' else 'clear')
@@ -517,4 +521,3 @@ while True:
 
                 else:
                     continue
-                
