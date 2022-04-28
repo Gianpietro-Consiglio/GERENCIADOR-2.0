@@ -245,6 +245,7 @@ while True:
                 print(f"[{cont}]{x}")
             try:
                 escolha = int(input("Opção: "))
+                os.system('cls' if os.name == 'nt' else 'clear')
 
             except:
                 continue
@@ -293,8 +294,16 @@ while True:
                             c = 0
                             for a in x:
                                 c+=1
-                                print( Fore.LIGHTMAGENTA_EX + f'[{c}]{a}')
-                            escolha = str(input("Opção: "))
+                                print(f'[{c}]{a}')
+                            try:
+                                escolha = int(input("Opção: "))
+
+                            except Exception as erro:
+                                funcoes.send_to_txt(erro)
+                                continue
+                            if escolha > c:
+                                continue
+
                             os.system('cls' if os.name == 'nt' else 'clear')
 
                             # TRECHO LADO - SUB MENU - ACCS    
@@ -306,7 +315,12 @@ while True:
                                     options += 1
                                     print(f'[{options}]{x}')
 
-                                options = int(input('Opção: '))
+                                try:
+                                    options = int(input('Opção: '))
+                                except Exception as erro:
+                                    funcoes.send_to_txt(erro)
+                                    continue    
+
                                 if options == 1:
                                     x = cursor.execute(f"SELECT site FROM contas WHERE identificador = '{login}' AND rlx = {escolha}")
                                     banco.commit()
@@ -390,9 +404,11 @@ while True:
                 elif escolha == 4:
                     cont = 0
                     try:
-                        x = cursor.execute(f"SELECT rlx, site, usuario, senha FROM contas WHERE identificador = '{login}'")
+                        x = cursor.execute(f"SELECT site, usuario, senha FROM contas WHERE identificador = '{login}'")
+                        z = cursor2.execute(f"SELECT rlx FROM contas WHERE identificador = '{login}'")
                         banco.commit()
                         x = cursor.fetchall()
+                        z = cursor2.fetchall()
 
                     except Exception as erro:
                         funcoes.send_to_txt(erro)   
@@ -410,9 +426,11 @@ while True:
                             print(f"[{cont}]{a}")
                         escolha = int(input("Opção: ")) 
                         escolha = escolha - 1
-                        alvo = list(x[escolha])
+                        alvo = list(z[escolha])
+                        
                         for b in alvo:
                             alvo1.append(b)  
+                        
                         try:
                             cursor.execute(f"DELETE FROM contas WHERE rlx = {alvo1[0]}")   
 

@@ -11,6 +11,7 @@ def send_to_txt(msg):
     log.write(f'{hora} -> {msg}\n')
     log.close()
 
+
 def gerador_senhas(qtd):
     f = 0
     letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
@@ -44,6 +45,7 @@ def gerador_senhas(qtd):
     print(Fore.GREEN + 'Senha gerada com sucesso!')
     senha = "".join(str(v) for v in senha2) 
     confidencial = senha
+
 
 def decisao_de_senha():
     os.system('cls' if os.name == 'nt' else 'clear')
