@@ -72,7 +72,7 @@ def decisao_de_senha():
                     continue
                 else: 
                     gerador_senhas(qtd)
-                    time.sleep(1)
+                    time.sleep(0.5)
                     break
             elif escolha == 2:
                 os.system('cls' if os.name == 'nt' else 'clear')
