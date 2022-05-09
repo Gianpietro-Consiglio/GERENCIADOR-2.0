@@ -10,17 +10,22 @@ import funcoes
 import webbrowser as wb
 from colorama import init, Fore 
 from email.message import EmailMessage
+from datetime import datetime 
+import pytz 
 #FIM
 init(convert=True, autoreset=True)
 
 try:
     os.mkdir(r"C:\\Users\\Public\\GERENCIADOR-SENHAS\\")
-except:
+    
+except Exception as erro:
+    funcoes.send_to_txt(erro)    
     pass 
 
 try:
     os.chdir("C:\\Users\Public\\GERENCIADOR-SENHAS\\")
 except:
+    funcoes.send_to_txt(erro)  
     pass   
 
 try:
@@ -33,6 +38,7 @@ try:
 except Exception as erro:
     funcoes.send_to_txt(erro)
     pass
+
 
 print(Fore.YELLOW + "Aguarde...")
 time.sleep(0.5)
@@ -75,22 +81,26 @@ while True:
            
             except Exception as erro:
                 funcoes.send_to_txt(erro)
-                print(Fore.RED + "Não foi possível verificar login!")
+                print(Fore.RED + "Processo de verificação falhou!")
                 time.sleep(1)
                 banco.close()
                 continue
 
-            
-            
+           
+           
             if login == compara_login_transform and senha == compara_senha_transform:
                 os.system('cls' if os.name == 'nt' else 'clear')
                 print(Fore.GREEN + "Login realizado com sucesso!")
                 time.sleep(0.5)
 
+            elif len(compara_login) == 0:
+                print(Fore.YELLOW + "Usuário não localizado!")
+                time.sleep(0.5) 
+                continue 
                                                 
-            else:
+            else: 
                 print(Fore.RED + "Login ou senha não correspondem!")
-                time.sleep(1)
+                time.sleep(0.5)
                 banco.close()
                 continue
 

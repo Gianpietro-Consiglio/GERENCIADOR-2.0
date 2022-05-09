@@ -1,3 +1,4 @@
+import sqlite3
 import time
 import os
 import random
@@ -85,3 +86,14 @@ def decisao_de_senha():
         except Exception as erro:
             send_to_txt(erro)
             continue   
+
+def conexao():
+    global query
+    try:
+        banco = sqlite3.connect('gerenciador.db')
+        cursor = banco.cursor()
+        cursor.execute('SELECT * FROM contas')
+        query = cursor.fetchall()
+        
+    except:
+        print('erro')    
